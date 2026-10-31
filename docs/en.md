@@ -1,0 +1,9 @@
+# Effects Editor
+
+`effects_editor` is an independent toolbar tool. Enable its optional group in RPG Plus or add `effects_editor>=1` to a game. Saved effects need only `effects_base` and the map engine at runtime.
+
+Choose a writable mod and profile. New and Duplicate create independent particle systems. Add, copy or remove sources, then edit their count, seed, color/opacity, XYZ velocity, height, pixel size, sway, pulse and trail. Ring sources expose cycle duration, radii, segment count and region. The preview uses the real atmosphere host and supports the installed map projections, pause and restart. Live unsaved overrides also reach open maps. Save writes only changed entity files; closing removes unsaved overrides. Ctrl+Z/Y undo and redo. Invalid intermediate input preserves the last valid preview and blocks Save. Unknown fields survive; third-party emitter-specific settings remain editable as JSON.
+
+The **Open map editor** button opens the RPG Map Editor (`rpg_map_editor`) in its own window. That editor (model v2) shows the map in the game's projections and edits its placements, surfaces and collision. It opens on its **Effects** tool with the profile you chose here, so you paint this profile's mask over cells (right button erases) and save the map; the game draws the effect only on the masked cells.
+
+Location lighting offers cycle/day/night without changing the game clock. Explicit day/night takes precedence over the legacy fixed Ambient. Preview lighting includes tile and event lights. RPG consumes the shared toolbar lamp's actual viewport position, saved pixel radius and influence rather than adding an automatic player aura. The common lighting policy controls both phase weights and lamp availability; night locations offer the lamp at noon, day locations stow it at midnight.

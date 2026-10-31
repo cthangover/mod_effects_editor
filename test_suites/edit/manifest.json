@@ -1,0 +1,13 @@
+{
+  "name": "Effects Authoring Test",
+  "description": "Creates profiles through the live editor, paints masks, verifies roundtrip and the shared lamp in both projections, checks collection card alignment.",
+  "sources": [
+    "src/*.cs"
+  ],
+  "depends": [
+    "rpg_plus_game>=1",
+    "test_defaults_and_patches>=1",
+    "mod_manager>=1",
+    "rpg_editor>=1"
+  ]
+}
