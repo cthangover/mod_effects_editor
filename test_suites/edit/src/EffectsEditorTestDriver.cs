@@ -23,6 +23,9 @@ namespace Cthangover.Tools.EffectsEditor.Tests
     /// <summary>Exercises author-facing controls and real render materials. Writes only a backed-up fixture file, restored even on assertion failure.</summary>
     public partial class EffectsEditorTestDriver : Node
     {
+        private int readinessToken = int.MinValue;
+        private ulong readinessStarted;
+        private ulong readinessFrame;
         private const string Mod = "test_defaults_and_patches";
         private const string ProfileId = "effects_editor_test/glow";
         private const string FileName = "atmospheres/test_defaults_and_patches.json";
@@ -46,18 +49,36 @@ namespace Cthangover.Tools.EffectsEditor.Tests
         public EffectsEditorTestDriver()
         {
             shots = OS.GetCmdlineUserArgs().FirstOrDefault(a => a.StartsWith("--shots="))?.Substring(8);
-            var timer = new Timer { WaitTime = .2, Autostart = true }; AddChild(timer); timer.Timeout += Tick;
+            var timer = new Timer { WaitTime = .05, Autostart = true }; AddChild(timer); timer.Timeout += Tick;
         }
         private void Tick()
         {
             if (step < 0) return;
-            elapsed += .2;
+            elapsed += .05;
             if (elapsed > 100) { Check(false, "timeout at step " + step); Finish(); return; }
             try { Run(); }
             catch (Exception ex) { Check(false, ex.ToString()); Finish(); }
         }
+        // Deferred UI/scene work must finish before the original assertions run.
+        private bool WaitForReadyFrames(int token, bool ready, double timeoutSeconds = 30)
+        {
+            var now = global::Godot.Time.GetTicksMsec();
+            if (readinessToken != token)
+            {
+                readinessToken = token;
+                readinessStarted = now;
+                readinessFrame = 0;
+            }
+            if (now - readinessStarted > timeoutSeconds * 1000)
+                throw new global::System.TimeoutException($"readiness at step {token}: scene/UI did not become ready");
+            if (!ready) { readinessFrame = 0; return false; }
+            if (readinessFrame == 0) readinessFrame = global::Godot.Engine.GetProcessFrames();
+            return global::Godot.Engine.GetProcessFrames() - readinessFrame >= 2;
+        }
+
         private void Run()
         {
+            if (!WaitForReadyFrames(step, Boot.IsReady && GetTree().CurrentScene != null && !GodotSceneService.IsTransitioning && (step == 0 || window != null && window.IsInsideTree()), 30)) return;
             if (!Boot.IsReady) return;
             switch (step)
             {
