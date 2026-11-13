@@ -6,8 +6,8 @@
   ],
   "depends": [
     "rpg_plus_game>=0.1.0",
-    "test_defaults_and_patches>=1",
-    "mod_manager>=1",
-    "rpg_editor>=1"
+    "test_defaults_and_patches>=0.1.0",
+    "mod_manager>=0.1.0",
+    "rpg_editor>=0.1.0"
   ]
 }
