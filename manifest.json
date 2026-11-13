@@ -1,7 +1,7 @@
 {
   "id": "effects_editor",
   "name": "Effects Editor",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "author": "ct",
   "description": "Live atmosphere authoring: particle and ripple profiles, preview, map and cell placement.",
   "category": "tools, editor",
@@ -9,11 +9,11 @@
     "src/**/*.cs"
   ],
   "depends": [
-    "effects_base>=1",
-    "tools_base>=1",
-    "ui_base>=1",
-    "tile_render_base>=1",
-    "tile_topdown_base>=1"
+    "effects_base>=0.1.0",
+    "tools_base>=0.1.0",
+    "ui_base>=0.1.0",
+    "tile_render_base>=0.1.0",
+    "tile_topdown_base>=0.1.0"
   ],
   "test_suites": [
     {
